@@ -1647,7 +1647,7 @@
             // Calculate optimal TP level
             calculateOptimalTp(filteredTrades);
             
-            // Apply RR simulation
+               // Apply RR simulation
             let simulationTrades = [...filteredTrades];
             if (currentRrSimulation > 0) {
                 simulationTrades = filteredTrades.map(trade => {
@@ -2153,3 +2153,4 @@
     </script>
 </body>
 </html>
+
