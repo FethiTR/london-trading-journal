@@ -1232,29 +1232,39 @@
             updateDashboard();
         }
         
-        // Save trade to cloud - LONDON VERSION
-        async function saveTradeToCloud(trade) {
-            if (!currentUser) return trade; // Return original trade if not logged in
-            
-            // Add user_id to trade
-            const tradeWithUser = {
-                ...trade,
-                user_id: currentUser.id,
-                session: 'LONDON'  // CHANGED: LONDON instead of NY
-            };
-            
-            const { data, error } = await supabase
-                .from('london_trades')  // CHANGED: london_trades instead of ny_trades
-                .insert([tradeWithUser])
-                .select();
-            
-            if (error) {
-                console.error('Error saving to cloud:', error);
-                return trade; // Return original trade if cloud save fails
-            } else {
-                return data[0]; // Return cloud trade with cloud ID
-            }
-        }
+// Save trade to cloud - LONDON VERSION (UPDATED FOR CORRECT COLUMN NAMES)
+async function saveTradeToCloud(trade) {
+    if (!currentUser) return trade; // Return original trade if not logged in
+    
+    // Add user_id to trade - USE CORRECT COLUMN NAMES THAT MATCH YOUR SQL SCHEMA
+    const tradeWithUser = {
+        user_id: currentUser.id,
+        session: 'LONDON',
+        date: trade.date,
+        time: trade.time,
+        timestamp: trade.timestamp,
+        confluences: trade.confluences,
+        "maxRrHit": trade.maxRrHit || 0,  // FIXED: Match your SQL schema with quotes
+        pnl: trade.pnl || 0,
+        rank: trade.rank,
+        screenshot: trade.screenshot,
+        notes: trade.notes,
+        "newsSession": trade.newsSession || false,  // FIXED: Match your SQL schema with quotes
+        "sweepType": trade.sweepType || null  // FIXED: Match your SQL schema with quotes
+    };
+    
+    const { data, error } = await supabase
+        .from('london_trades')
+        .insert([tradeWithUser])
+        .select();
+    
+    if (error) {
+        console.error('Error saving to cloud:', error);
+        return trade; // Return original trade if cloud save fails
+    } else {
+        return data[0]; // Return cloud trade with cloud ID
+    }
+}
         
         // Delete trade from cloud - LONDON VERSION
         async function deleteTradeFromCloud(tradeId) {
@@ -1284,6 +1294,143 @@
             await loadTradesFromCloud();
         }
         
+// CORRECTED Function to upload imported trades to Supabase - MATCHES YOUR SQL SCHEMA
+async function uploadImportedTradesToSupabase(trades) {
+    if (!currentUser) {
+        throw new Error('User not authenticated');
+    }
+
+    const results = {
+        success: 0,
+        errors: 0,
+        errorDetails: []
+    };
+
+    // Create upload progress UI
+    const progressContainer = document.createElement('div');
+    progressContainer.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        z-index: 10000;
+        min-width: 300px;
+        text-align: center;
+    `;
+    
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = `
+        width: 100%;
+        height: 20px;
+        background: #f0f0f0;
+        border-radius: 10px;
+        margin: 15px 0;
+        overflow: hidden;
+    `;
+    
+    const progressFill = document.createElement('div');
+    progressFill.style.cssText = `
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #4a8c5a, #3a7c47);
+        transition: width 0.3s ease;
+        border-radius: 10px;
+    `;
+    
+    const statusText = document.createElement('div');
+    statusText.style.cssText = `
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    `;
+    
+    progressBar.appendChild(progressFill);
+    progressContainer.appendChild(statusText);
+    progressContainer.appendChild(progressBar);
+    document.body.appendChild(progressContainer);
+
+    try {
+        // Upload trades in batches
+        const batchSize = 5;
+        for (let i = 0; i < trades.length; i += batchSize) {
+            const batch = trades.slice(i, i + batchSize);
+            
+            // Update progress
+            const progress = Math.min(i + batchSize, trades.length);
+            const percentage = Math.round((progress / trades.length) * 100);
+            progressFill.style.width = `${percentage}%`;
+            statusText.textContent = `Uploading imported trades to cloud... ${progress}/${trades.length} (${percentage}%)`;
+            
+            // Process batch - USE EXACT COLUMN NAMES FROM YOUR SQL SCHEMA
+            const batchPromises = batch.map(async (trade) => {
+                try {
+                    // USE THE EXACT COLUMN NAMES FROM YOUR london_trades TABLE
+                    const supabaseTrade = {
+                        user_id: currentUser.id,
+                        session: 'LONDON',
+                        date: trade.date,
+                        time: trade.time,
+                        timestamp: trade.timestamp,
+                        confluences: trade.confluences,
+                        "maxRrHit": trade.maxRrHit || 0,  // FIXED: Match your SQL schema with quotes
+                        pnl: trade.pnl || 0,
+                        rank: trade.rank,
+                        screenshot: trade.screenshot,
+                        notes: trade.notes,
+                        "newsSession": trade.newsSession || false,  // FIXED: Match your SQL schema with quotes
+                        "sweepType": trade.sweepType || null  // FIXED: Match your SQL schema with quotes
+                    };
+
+                    const { data, error } = await supabase
+                        .from('london_trades')
+                        .insert([supabaseTrade])
+                        .select();
+
+                    if (error) throw error;
+                    
+                    return { success: true, trade: data[0] };
+                } catch (error) {
+                    return { 
+                        success: false, 
+                        error: error.message,
+                        trade: trade 
+                    };
+                }
+            });
+
+            const batchResults = await Promise.allSettled(batchPromises);
+            
+            // Count results
+            batchResults.forEach(result => {
+                if (result.status === 'fulfilled') {
+                    if (result.value.success) {
+                        results.success++;
+                    } else {
+                        results.errors++;
+                        results.errorDetails.push(result.value);
+                    }
+                } else {
+                    results.errors++;
+                    results.errorDetails.push({ error: result.reason?.message });
+                }
+            });
+
+            // Small delay between batches
+            if (i + batchSize < trades.length) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+        }
+
+        return results;
+    } finally {
+        document.body.removeChild(progressContainer);
+    }
+}
+
         // Show sync status
         function showSyncStatus(message, type) {
             syncStatus.textContent = message;
@@ -2002,36 +2149,67 @@ function applyMaxLossesFilter(trades, maxLosses) {
             importFile.click();
         });
         
-        importFile.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedTrades = JSON.parse(e.target.result);
-                    if (Array.isArray(importedTrades)) {
-                        const existingIds = new Set(trades.map(t => t.id));
-                        const newTrades = importedTrades.filter(t => !existingIds.has(t.id));
+        importFile.addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        try {
+            const importedTrades = JSON.parse(e.target.result);
+            if (Array.isArray(importedTrades)) {
+                const existingIds = new Set(trades.map(t => t.id));
+                const newTrades = importedTrades.filter(t => !existingIds.has(t.id));
+                
+                // Save to local storage first
+                trades = [...trades, ...newTrades];
+                localStorage.setItem('londonTrades', JSON.stringify(trades));
+                
+                // NEW: Upload to cloud if logged in
+                if (currentUser) {
+                    try {
+                        const loadingNotification = showNotification('Uploading imported trades to cloud...', 'loading');
                         
-                        trades = [...trades, ...newTrades];
-                        localStorage.setItem('londonTrades', JSON.stringify(trades));  // CHANGED: londonTrades
+                        const uploadResults = await uploadImportedTradesToSupabase(newTrades);
                         
+                        // Remove loading notification
+                        if (loadingNotification.parentNode) {
+                            loadingNotification.parentNode.removeChild(loadingNotification);
+                        }
+                        
+                        if (uploadResults.errors > 0) {
+                            showNotification(
+                                `Import completed! ${uploadResults.success} trades uploaded to cloud, ${uploadResults.errors} failed.`, 
+                                uploadResults.errors === newTrades.length ? 'error' : 'warning'
+                            );
+                        } else {
+                            showNotification(`Import successful! All ${uploadResults.success} trades uploaded to cloud.`, 'success');
+                        }
+                        
+                        // Reload from cloud to get cloud IDs
+                        await loadTradesFromCloud();
+                    } catch (uploadError) {
+                        console.error('Cloud upload failed:', uploadError);
+                        showNotification('Imported locally, but cloud upload failed', 'error');
                         updateTradeHistory();
                         updateDashboard();
-                        
-                        showNotification(`Imported ${newTrades.length} new trades!`, 'success');
-                    } else {
-                        showNotification('Invalid data format!', 'error');
                     }
-                } catch (error) {
-                    showNotification('Error importing data!', 'error');
+                } else {
+                    showNotification(`Imported ${newTrades.length} trades to local storage. Login to sync with cloud.`, 'success');
+                    updateTradeHistory();
+                    updateDashboard();
                 }
-            };
-            reader.readAsText(file);
-            
-            e.target.value = '';
-        });
+            } else {
+                showNotification('Invalid data format!', 'error');
+            }
+        } catch (error) {
+            showNotification('Error importing data!', 'error');
+        }
+    };
+    reader.readAsText(file);
+    
+    e.target.value = '';
+});
         
         // Clear all data - LONDON VERSION
         clearBtn.addEventListener('click', async function() {
