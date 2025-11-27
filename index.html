@@ -8,19 +8,19 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* EXACT SAME CSS AS NY PLATFORM */
+        /* CHANGED: Updated color scheme from blue to green */
         :root {
-               --primary: #2d5a2d;
-               --secondary: #3a7c47;
-               --accent: #4a8c5a;
-               --success: #2ecc71;
-               --danger: #e74c3c;
-               --warning: #f39c12;
-               --light: #f8f9fa;
-               --dark: #2c3e50;
-               --gray: #95a5a6;
-               --card-bg: #ffffff;
-               --border: #e1e8ed;
+            --primary: #1e5f3a;
+            --secondary: #2d7f4a;
+            --accent: #3a8f5f;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --card-bg: #ffffff;
+            --border: #e1e8ed;
         }
         
         * {
@@ -31,7 +31,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf5 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5ec 100%);
             color: var(--dark);
             line-height: 1.6;
             min-height: 100vh;
@@ -121,7 +121,7 @@
         }
         
         .tab:hover {
-            background-color: rgba(58, 95, 143, 0.1);
+            background-color: rgba(58, 143, 95, 0.1);
         }
         
         .tab.active {
@@ -167,7 +167,7 @@
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(58, 95, 143, 0.2);
+            box-shadow: 0 0 0 3px rgba(58, 143, 95, 0.2);
         }
         
         textarea {
@@ -194,7 +194,7 @@
         }
         
         .checkbox-item:hover {
-            background-color: #e9ecf7;
+            background-color: #e9f7ec;
         }
         
         .checkbox-item input {
@@ -205,10 +205,10 @@
         .sweep-options {
             margin-top: 10px;
             padding: 15px;
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f3f9 100%);
+            background: linear-gradient(135deg, #f8fff9 0%, #f0f9f3 100%);
             border-radius: 12px;
-            border: 2px solid #e1e6f0;
-            box-shadow: 0 2px 8px rgba(58, 95, 143, 0.1);
+            border: 2px solid #e1f0e6;
+            box-shadow: 0 2px 8px rgba(58, 143, 95, 0.1);
         }
         
         .sweep-options.hidden {
@@ -228,7 +228,7 @@
             padding: 12px 15px;
             background: white;
             border-radius: 10px;
-            border: 2px solid #e1e6f0;
+            border: 2px solid #e1f0e6;
             transition: all 0.3s ease;
             cursor: pointer;
         }
@@ -236,14 +236,14 @@
         .sweep-option:hover {
             border-color: var(--accent);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(58, 95, 143, 0.15);
+            box-shadow: 0 4px 12px rgba(58, 143, 95, 0.15);
         }
         
         .sweep-option.selected {
             border-color: var(--accent);
-            background: linear-gradient(135deg, #3a5f8f 0%, #2d4a7f 100%);
+            background: linear-gradient(135deg, #3a8f5f 0%, #2d7f4a 100%);
             color: white;
-            box-shadow: 0 4px 12px rgba(58, 95, 143, 0.25);
+            box-shadow: 0 4px 12px rgba(58, 143, 95, 0.25);
         }
         
         .sweep-option.selected .sweep-icon {
@@ -278,9 +278,9 @@
         }
         
         .btn:hover {
-            background-color: #2d4a7f;
+            background-color: #2d7f4a;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(58, 95, 143, 0.3);
+            box-shadow: 0 4px 12px rgba(58, 143, 95, 0.3);
         }
         
         .btn-success {
@@ -308,7 +308,7 @@
         }
         
         .btn-outline:hover {
-            background-color: rgba(58, 95, 143, 0.1);
+            background-color: rgba(58, 143, 95, 0.1);
         }
         
         .stats-grid {
@@ -390,7 +390,7 @@
         }
         
         tr:hover {
-            background-color: rgba(58, 95, 143, 0.03);
+            background-color: rgba(58, 143, 95, 0.03);
         }
         
         .win {
@@ -472,22 +472,22 @@
         }
         
         .rank-B {
-            background-color: #bbdefb;
-            color: #1565c0;
-        }
-        
-        .rank-Bplus {
-            background-color: #90caf9;
-            color: #0d47a1;
-        }
-        
-        .rank-A {
             background-color: #c8e6c9;
             color: #2e7d32;
         }
         
-        .rank-Aplus {
+        .rank-Bplus {
             background-color: #a5d6a7;
+            color: #1b5e20;
+        }
+        
+        .rank-A {
+            background-color: #81c784;
+            color: #1b5e20;
+        }
+        
+        .rank-Aplus {
+            background-color: #66bb6a;
             color: #1b5e20;
         }
         
@@ -509,8 +509,8 @@
         }
         
         .confluence-tag {
-            background-color: #e3f2fd;
-            color: #1976d2;
+            background-color: #e8f5e9;
+            color: #2e7d32;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 0.8rem;
@@ -545,10 +545,10 @@
         }
         
         .rr-slider-container {
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f3f9 100%);
+            background: linear-gradient(135deg, #f8fff9 0%, #f0f9f3 100%);
             padding: 20px;
             border-radius: 12px;
-            border: 2px solid #e1e6f0;
+            border: 2px solid #e1f0e6;
             margin-bottom: 25px;
         }
         
@@ -569,7 +569,7 @@
             width: 100%;
             height: 8px;
             border-radius: 4px;
-            background: #e1e6f0;
+            background: #e1f0e6;
             outline: none;
             -webkit-appearance: none;
         }
@@ -581,7 +581,7 @@
             border-radius: 50%;
             background: var(--accent);
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(58, 95, 143, 0.3);
+            box-shadow: 0 2px 6px rgba(58, 143, 95, 0.3);
         }
         
         .potential-display {
@@ -632,6 +632,164 @@
             color: #0c5460;
             border: 1px solid #bee5eb;
         }
+
+        /* Custom Dropdown Styles */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+
+        .dropdown-header {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .dropdown-header:hover {
+            border-color: var(--accent);
+        }
+
+        .dropdown-header.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(58, 143, 95, 0.2);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-top: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .dropdown-options.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dropdown-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-option:hover {
+            background-color: var(--light);
+        }
+
+        .dropdown-option input {
+            width: auto;
+            transform: scale(1.1);
+        }
+
+        .dropdown-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Day Badge Styles */
+        .day-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .day-Mon { background-color: #e8f5e9; color: #2e7d32; }
+        .day-Tue { background-color: #e3f2fd; color: #1565c0; }
+        .day-Wed { background-color: #fff3e0; color: #ef6c00; }
+        .day-Thu { background-color: #f3e5f5; color: #7b1fa2; }
+        .day-Fri { background-color: #ffebee; color: #c62828; }
+
+        /* Notes Modal Styles */
+        .notes-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .notes-modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .notes-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .notes-modal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .notes-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            padding: 5px;
+        }
+
+        .notes-modal-close:hover {
+            color: var(--danger);
+        }
+
+        .notes-content {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .no-notes {
+            color: var(--gray);
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
         
         @media (max-width: 1100px) {
             .app-container {
@@ -664,6 +822,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- CHANGED: Header updated to London -->
         <header>
             <h1><i class="fas fa-chart-line"></i> London Session Trading Journal</h1>
             <p>Track, analyze, and improve your London session trading performance with confluence-based ranking</p>
@@ -699,6 +858,35 @@
                 <div class="filter-section">
                     <div class="filter-title">
                         <i class="fas fa-filter"></i> Analytics Filters
+                    </div>
+                    
+                    <!-- Date Range Filter -->
+<div class="form-group">
+    <label>Date Range</label>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div>
+            <label style="font-size: 0.85rem; margin-bottom: 5px;">From</label>
+            <input type="date" id="date-from">
+        </div>
+        <div>
+            <label style="font-size: 0.85rem; margin-bottom: 5px;">To</label>
+            <input type="date" id="date-to">
+        </div>
+    </div>
+</div>
+                    
+                    <!-- Month Filter -->
+                    <div class="form-group">
+                        <label for="month-filter">Month Filter</label>
+                        <div class="custom-dropdown">
+                            <div class="dropdown-header" id="month-dropdown-header">
+                                <span>All Months</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="dropdown-options" id="month-dropdown-options">
+                                <!-- Months will be populated dynamically -->
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -750,17 +938,74 @@
                         </div>
                     </div>
                     
+                    <!-- Rank Filter -->
                     <div class="form-group">
                         <label for="rank-filter">Rank Filter</label>
-                        <select id="rank-filter">
-                            <option value="all">All Ranks</option>
-                            <option value="A++">A++</option>
-                            <option value="A+">A+</option>
-                            <option value="A">A</option>
-                            <option value="B+">B+</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
+                        <div class="custom-dropdown">
+                            <div class="dropdown-header" id="rank-dropdown-header">
+                                <span>All Ranks</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="dropdown-options" id="rank-dropdown-options">
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="rank-A++" value="A++" checked>
+                                    <label for="rank-A++" class="rank-badge rank-App">A++</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="rank-A+" value="A+" checked>
+                                    <label for="rank-A+" class="rank-badge rank-Aplus">A+</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="rank-A" value="A" checked>
+                                    <label for="rank-A" class="rank-badge rank-A">A</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="rank-B+" value="B+" checked>
+                                    <label for="rank-B+" class="rank-badge rank-Bplus">B+</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="rank-B" value="B" checked>
+                                    <label for="rank-B" class="rank-badge rank-B">B</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="rank-C" value="C" checked>
+                                    <label for="rank-C" class="rank-badge rank-C">C</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day Filter -->
+                    <div class="form-group">
+                        <label for="day-filter">Day Filter</label>
+                        <div class="custom-dropdown">
+                            <div class="dropdown-header" id="day-dropdown-header">
+                                <span>All Days</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="dropdown-options" id="day-dropdown-options">
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="day-Mon" value="Mon" checked>
+                                    <label for="day-Mon" class="day-badge day-Mon">Monday</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="day-Tue" value="Tue" checked>
+                                    <label for="day-Tue" class="day-badge day-Tue">Tuesday</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="day-Wed" value="Wed" checked>
+                                    <label for="day-Wed" class="day-badge day-Wed">Wednesday</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="day-Thu" value="Thu" checked>
+                                    <label for="day-Thu" class="day-badge day-Thu">Thursday</label>
+                                </div>
+                                <div class="dropdown-option">
+                                    <input type="checkbox" id="day-Fri" value="Fri" checked>
+                                    <label for="day-Fri" class="day-badge day-Fri">Friday</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -899,6 +1144,7 @@
                             <thead>
                                 <tr>
                                     <th>Date & Time</th>
+                                    <th>Day</th>
                                     <th>Rank</th>
                                     <th>Confluences</th>
                                     <th>P&L (R)</th>
@@ -1023,14 +1269,27 @@
         </div>
     </div>
 
+    <!-- Notes Modal -->
+    <div id="notes-modal" class="notes-modal">
+        <div class="notes-modal-content">
+            <div class="notes-modal-header">
+                <h3 class="notes-modal-title">Trade Notes</h3>
+                <button class="notes-modal-close">&times;</button>
+            </div>
+            <div id="notes-content" class="notes-content">
+                <!-- Notes content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Supabase Configuration - SAME AS NY
+        // Supabase Configuration
         const SUPABASE_URL = 'https://mxitdynwsnrhqhdcfnhv.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14aXRkeW53c25yaHFoZGNmbmh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2NjI3MTgsImV4cCI6MjA3NTIzODcxOH0.XY7CiviiXYQF08WXtcoVK9G_UkSnbbIuQfticAyJBlw';
         
         // Initialize Supabase
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
+
         // Auth state listener
         supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
@@ -1044,7 +1303,7 @@
             }
         });
 
-        // Initialize data storage - SEPARATE FROM NY SESSION
+        // Initialize data storage - SEPARATE FROM NEW YORK SESSION
         let trades = JSON.parse(localStorage.getItem('londonTrades')) || [];
         let lastUsedDate = localStorage.getItem('londonLastUsedDate') || new Date().toISOString().split('T')[0];
         let lastUsedTime = localStorage.getItem('londonLastUsedTime') || new Date().toTimeString().slice(0, 5);
@@ -1077,6 +1336,29 @@
         const optimalTpCard = document.getElementById('optimal-tp-card');
         const optimalTpValue = document.getElementById('optimal-tp');
         
+        // Date Range Filter Elements
+        const dateFromInput = document.getElementById('date-from');
+        const dateToInput = document.getElementById('date-to');
+        
+        // Month Filter Elements
+        const monthDropdownHeader = document.getElementById('month-dropdown-header');
+        const monthDropdownOptions = document.getElementById('month-dropdown-options');
+        
+        // Rank Dropdown Elements
+        const rankDropdownHeader = document.getElementById('rank-dropdown-header');
+        const rankDropdownOptions = document.getElementById('rank-dropdown-options');
+        const rankCheckboxes = document.querySelectorAll('.dropdown-option input[type="checkbox"]');
+        
+        // Day Dropdown Elements
+        const dayDropdownHeader = document.getElementById('day-dropdown-header');
+        const dayDropdownOptions = document.getElementById('day-dropdown-options');
+        const dayCheckboxes = document.querySelectorAll('#day-dropdown-options input[type="checkbox"]');
+
+        // Notes Modal Elements
+        const notesModal = document.getElementById('notes-modal');
+        const notesContent = document.getElementById('notes-content');
+        const notesModalClose = document.querySelector('.notes-modal-close');
+        
         // Cloud Sync Elements
         const cloudLoginBtn = document.getElementById('cloud-login');
         const cloudSyncBtn = document.getElementById('cloud-sync');
@@ -1107,6 +1389,163 @@
         // Set last used date and time as default in the form
         document.getElementById('trade-date').value = lastUsedDate;
         document.getElementById('trade-time').value = lastUsedTime;
+        
+        // ==================== DATE AND MONTH FILTER FUNCTIONS ====================
+        
+        // Initialize date range to cover all trades
+        function initializeDateRange() {
+            if (trades.length === 0) {
+                const today = new Date();
+                dateFromInput.value = today.toISOString().split('T')[0];
+                dateToInput.value = today.toISOString().split('T')[0];
+                return;
+            }
+            
+            const dates = trades.map(trade => new Date(trade.date));
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            
+            dateFromInput.value = minDate.toISOString().split('T')[0];
+            dateToInput.value = maxDate.toISOString().split('T')[0];
+        }
+        
+        // Get available months from trades
+        function getAvailableMonths() {
+            const monthSet = new Set();
+            
+            trades.forEach(trade => {
+                const date = new Date(trade.date);
+                const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+                monthSet.add(monthYear);
+            });
+            
+            // Convert to array and sort by date (newest first)
+            return Array.from(monthSet).sort((a, b) => {
+                const [monthA, yearA] = a.split('/').map(Number);
+                const [monthB, yearB] = b.split('/').map(Number);
+                return new Date(yearB, monthB - 1) - new Date(yearA, monthA - 1);
+            });
+        }
+        
+        // Populate month dropdown
+        function populateMonthDropdown() {
+            const months = getAvailableMonths();
+            monthDropdownOptions.innerHTML = '';
+            
+            // Add "All Months" option
+            const allMonthsOption = document.createElement('div');
+            allMonthsOption.className = 'dropdown-option';
+            allMonthsOption.innerHTML = `
+                <input type="checkbox" id="month-all" value="all" checked>
+                <label for="month-all">All Months</label>
+            `;
+            monthDropdownOptions.appendChild(allMonthsOption);
+            
+            // Add individual month options
+            months.forEach(month => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.innerHTML = `
+                    <input type="checkbox" id="month-${month.replace('/', '-')}" value="${month}">
+                    <label for="month-${month.replace('/', '-')}">${month}</label>
+                `;
+                monthDropdownOptions.appendChild(option);
+            });
+            
+            // Add event listeners to month checkboxes
+            const monthCheckboxes = monthDropdownOptions.querySelectorAll('input[type="checkbox"]');
+            monthCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.value === 'all' && this.checked) {
+                        // If "All Months" is checked, uncheck all other months
+                        monthCheckboxes.forEach(cb => {
+                            if (cb.value !== 'all') cb.checked = false;
+                        });
+                    } else if (this.value !== 'all' && this.checked) {
+                        // If a specific month is checked, uncheck "All Months"
+                        const allMonthsCheckbox = document.getElementById('month-all');
+                        if (allMonthsCheckbox) allMonthsCheckbox.checked = false;
+                    }
+                    
+                    updateMonthDropdownHeader();
+                    updateDashboard();
+                });
+            });
+            
+            updateMonthDropdownHeader();
+        }
+        
+        // Update month dropdown header text
+        function updateMonthDropdownHeader() {
+            const selectedMonths = getSelectedMonths();
+            
+            if (selectedMonths.length === 0 || selectedMonths.includes('all')) {
+                monthDropdownHeader.querySelector('span').textContent = 'All Months';
+            } else if (selectedMonths.length === 1) {
+                monthDropdownHeader.querySelector('span').textContent = selectedMonths[0];
+            } else {
+                monthDropdownHeader.querySelector('span').textContent = `${selectedMonths.length} Months Selected`;
+            }
+        }
+        
+        // Get selected months
+        function getSelectedMonths() {
+            const monthCheckboxes = monthDropdownOptions.querySelectorAll('input[type="checkbox"]');
+            return Array.from(monthCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+        }
+        
+        // Apply date range filter
+        function filterByDateRange(trades, dateFrom, dateTo) {
+            if (!dateFrom && !dateTo) return trades;
+            
+            const fromDate = dateFrom ? new Date(dateFrom) : null;
+            const toDate = dateTo ? new Date(dateTo) : null;
+            
+            if (toDate) toDate.setDate(toDate.getDate() + 1); // Include the end date
+            
+            return trades.filter(trade => {
+                const tradeDate = new Date(trade.date);
+                
+                if (fromDate && toDate) {
+                    return tradeDate >= fromDate && tradeDate < toDate;
+                } else if (fromDate) {
+                    return tradeDate >= fromDate;
+                } else if (toDate) {
+                    return tradeDate < toDate;
+                }
+                
+                return true;
+            });
+        }
+        
+        // Apply month filter
+        function filterByMonth(trades, selectedMonths) {
+            if (selectedMonths.length === 0 || selectedMonths.includes('all')) {
+                return trades;
+            }
+            
+            return trades.filter(trade => {
+                const date = new Date(trade.date);
+                const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+                return selectedMonths.includes(monthYear);
+            });
+        }
+        
+        // Month dropdown event listeners
+        monthDropdownHeader.addEventListener('click', function() {
+            monthDropdownOptions.classList.toggle('show');
+            monthDropdownHeader.classList.toggle('active');
+        });
+
+        // Close month dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!monthDropdownHeader.contains(event.target) && !monthDropdownOptions.contains(event.target)) {
+                monthDropdownOptions.classList.remove('show');
+                monthDropdownHeader.classList.remove('active');
+            }
+        });
         
         // ==================== CLOUD SYNC FUNCTIONS ====================
         
@@ -1190,7 +1629,7 @@
             showSyncStatus('Logged out', 'success');
         }
         
-        // Load trades from cloud - LONDON VERSION
+        // Load trades from cloud - FIXED WITH ERROR HANDLING
         async function loadTradesFromCloud() {
             if (!currentUser) {
                 loadLocalTrades();
@@ -1200,78 +1639,138 @@
             showSyncStatus('Loading trades from cloud...', 'loading');
             
             try {
+                console.log('Loading trades for user:', currentUser.id);
+                
                 const { data, error } = await supabase
-                    .from('london_trades')  // CHANGED: london_trades instead of ny_trades
+                    .from('london_trades')
                     .select('*')
                     .eq('user_id', currentUser.id)
                     .order('timestamp', { ascending: false });
                 
                 if (error) {
                     console.error('Cloud load error:', error);
-                    showSyncStatus('Error loading from cloud: ' + error.message, 'error');
-                    loadLocalTrades(); // Fallback to local data
+                    showSyncStatus('Error: ' + error.message, 'error');
+                    loadLocalTrades();
                 } else {
-                    trades = data || [];
-                    localStorage.setItem('londonTrades', JSON.stringify(trades));  // CHANGED: londonTrades
+                    console.log('Loaded', data.length, 'trades from cloud');
+                    
+                    // FIX: Ensure all trades have required fields with defaults
+                    trades = (data || []).map(trade => ({
+                        id: trade.id,
+                        date: trade.date,
+                        time: trade.time || '00:00',
+                        timestamp: trade.timestamp || trade.id,
+                        confluences: trade.confluences || [],
+                        maxRrHit: trade.max_rr_hit || 0,
+                        pnl: trade.pnl || 0,
+                        rank: trade.rank || 'C',
+                        screenshot: trade.screenshot || '',
+                        notes: trade.notes || '',
+                        newsSession: trade.news_session || false,
+                        sweepType: trade.sweep_type || null,
+                        // Calculate day of week
+                        dayOfWeek: getDayOfWeek(trade.date)
+                    }));
+                    
+                    localStorage.setItem('londonTrades', JSON.stringify(trades));
                     
                     updateTradeHistory();
                     updateDashboard();
+                    initializeDateRange();
+                    populateMonthDropdown();
                     showSyncStatus(`Loaded ${trades.length} trades from cloud`, 'success');
                 }
             } catch (err) {
                 console.error('Cloud load failed:', err);
-                showSyncStatus('Cloud load failed, using local data', 'error');
-                loadLocalTrades(); // Fallback to local data
+                showSyncStatus('Cloud load failed: ' + err.message, 'error');
+                loadLocalTrades();
             }
         }
 
-        // Local data loading - LONDON VERSION
+        // Local data loading
         function loadLocalTrades() {
-            trades = JSON.parse(localStorage.getItem('londonTrades')) || [];  // CHANGED: londonTrades
+            trades = JSON.parse(localStorage.getItem('londonTrades')) || [];
+            // Ensure all trades have dayOfWeek
+            trades.forEach(trade => {
+                if (!trade.dayOfWeek) {
+                    trade.dayOfWeek = getDayOfWeek(trade.date);
+                }
+            });
             updateTradeHistory();
             updateDashboard();
+            initializeDateRange();
+            populateMonthDropdown();
         }
         
-// Save trade to cloud - LONDON VERSION (UPDATED FOR CORRECT COLUMN NAMES)
-async function saveTradeToCloud(trade) {
-    if (!currentUser) return trade; // Return original trade if not logged in
-    
-    // Add user_id to trade - USE CORRECT COLUMN NAMES THAT MATCH YOUR SQL SCHEMA
-    const tradeWithUser = {
-        user_id: currentUser.id,
-        session: 'LONDON',
-        date: trade.date,
-        time: trade.time,
-        timestamp: trade.timestamp,
-        confluences: trade.confluences,
-        "maxRrHit": trade.maxRrHit || 0,  // FIXED: Match your SQL schema with quotes
-        pnl: trade.pnl || 0,
-        rank: trade.rank,
-        screenshot: trade.screenshot,
-        notes: trade.notes,
-        "newsSession": trade.newsSession || false,  // FIXED: Match your SQL schema with quotes
-        "sweepType": trade.sweepType || null  // FIXED: Match your SQL schema with quotes
-    };
-    
-    const { data, error } = await supabase
-        .from('london_trades')
-        .insert([tradeWithUser])
-        .select();
-    
-    if (error) {
-        console.error('Error saving to cloud:', error);
-        return trade; // Return original trade if cloud save fails
-    } else {
-        return data[0]; // Return cloud trade with cloud ID
-    }
-}
+        // Save trade to cloud - UPDATED FOR BOTH WAYS
+        async function saveTradeToCloud(trade) {
+            if (!currentUser) {
+                console.log('Not logged in, saving locally only');
+                return trade;
+            }
+            
+            console.log('Saving trade to cloud:', trade);
+            
+            // Convert to database column names
+            const tradeData = {
+                user_id: currentUser.id,
+                session: 'London',
+                date: trade.date,
+                time: trade.time,
+                timestamp: trade.timestamp,
+                confluences: trade.confluences || [],
+                max_rr_hit: trade.maxRrHit || 0,
+                pnl: trade.pnl || 0,
+                rank: trade.rank || 'C',
+                screenshot: trade.screenshot || '',
+                notes: trade.notes || '',
+                news_session: trade.newsSession || false,
+                sweep_type: trade.sweepType || null
+            };
+            
+            try {
+                const { data, error } = await supabase
+                    .from('london_trades')
+                    .insert([tradeData])
+                    .select();
+                
+                if (error) {
+                    console.error('Supabase insert error:', error);
+                    return trade;
+                }
+                
+                console.log('Successfully saved to cloud:', data[0]);
+                
+                // Return with BOTH local and cloud field names for compatibility
+                return {
+                    id: data[0].id,
+                    date: data[0].date,
+                    time: data[0].time,
+                    timestamp: data[0].timestamp,
+                    confluences: data[0].confluences,
+                    maxRrHit: data[0].max_rr_hit,
+                    pnl: data[0].pnl,
+                    rank: data[0].rank,
+                    screenshot: data[0].screenshot,
+                    notes: data[0].notes,
+                    newsSession: data[0].news_session,
+                    sweepType: data[0].sweep_type,
+                    // Calculate day of week
+                    dayOfWeek: getDayOfWeek(data[0].date)
+                };
+                
+            } catch (err) {
+                console.error('Unexpected error:', err);
+                return trade;
+            }
+        }
         
-        // Delete trade from cloud - LONDON VERSION
+        // Delete trade from cloud
         async function deleteTradeFromCloud(tradeId) {
-            if (!currentUser) return true; // Return true if not logged in
+            if (!currentUser) return true;
             
             const { error } = await supabase
-                .from('london_trades')  // CHANGED: london_trades instead of ny_trades
+                .from('london_trades')
                 .delete()
                 .eq('id', tradeId)
                 .eq('user_id', currentUser.id);
@@ -1281,6 +1780,142 @@ async function saveTradeToCloud(trade) {
                 return false;
             }
             return true;
+        }
+
+        // Upload imported trades to Supabase - SIMPLIFIED VERSION (FIXED)
+        async function uploadImportedTradesToSupabase(trades) {
+            if (!currentUser) {
+                throw new Error('User not authenticated');
+            }
+
+            const results = {
+                success: 0,
+                errors: 0,
+                errorDetails: []
+            };
+
+            // Create upload progress UI
+            const progressContainer = document.createElement('div');
+            progressContainer.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 10000;
+                min-width: 300px;
+                text-align: center;
+            `;
+            
+            const progressBar = document.createElement('div');
+            progressBar.style.cssText = `
+                width: 100%;
+                height: 20px;
+                background: #f0f0f0;
+                border-radius: 10px;
+                margin: 15px 0;
+                overflow: hidden;
+            `;
+            
+            const progressFill = document.createElement('div');
+            progressFill.style.cssText = `
+                width: 0%;
+                height: 100%;
+                background: linear-gradient(90deg, #3a8f5f, #2d7f4a);
+                transition: width 0.3s ease;
+                border-radius: 10px;
+            `;
+            
+            const statusText = document.createElement('div');
+            statusText.style.cssText = `
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 10px;
+            `;
+            
+            progressBar.appendChild(progressFill);
+            progressContainer.appendChild(statusText);
+            progressContainer.appendChild(progressBar);
+            document.body.appendChild(progressContainer);
+
+            try {
+                // Upload trades in batches
+                const batchSize = 5;
+                for (let i = 0; i < trades.length; i += batchSize) {
+                    const batch = trades.slice(i, i + batchSize);
+                    
+                    // Update progress
+                    const progress = Math.min(i + batchSize, trades.length);
+                    const percentage = Math.round((progress / trades.length) * 100);
+                    progressFill.style.width = `${percentage}%`;
+                    statusText.textContent = `Uploading imported trades to cloud... ${progress}/${trades.length} (${percentage}%)`;
+                    
+                    // Process batch with SIMPLE column names
+                    const batchPromises = batch.map(async (trade) => {
+                        try {
+                            const supabaseTrade = {
+                                user_id: currentUser.id,
+                                session: 'London',
+                                date: trade.date,
+                                time: trade.time,
+                                timestamp: trade.timestamp,
+                                confluences: trade.confluences,
+                                max_rr_hit: trade.maxRrHit || 0,
+                                pnl: trade.pnl || 0,
+                                rank: trade.rank,
+                                screenshot: trade.screenshot || '',
+                                notes: trade.notes || '',
+                                news_session: trade.newsSession || false,
+                                sweep_type: trade.sweepType || null
+                            };
+
+                            const { data, error } = await supabase
+                                .from('london_trades')
+                                .insert([supabaseTrade])
+                                .select();
+
+                            if (error) throw error;
+                            
+                            return { success: true, trade: data[0] };
+                        } catch (error) {
+                            return { 
+                                success: false, 
+                                error: error.message,
+                                trade: trade 
+                            };
+                        }
+                    });
+
+                    const batchResults = await Promise.allSettled(batchPromises);
+                    
+                    // Count results
+                    batchResults.forEach(result => {
+                        if (result.status === 'fulfilled') {
+                            if (result.value.success) {
+                                results.success++;
+                            } else {
+                                results.errors++;
+                                results.errorDetails.push(result.value);
+                            }
+                        } else {
+                            results.errors++;
+                            results.errorDetails.push({ error: result.reason?.message });
+                        }
+                    });
+
+                    // Small delay between batches
+                    if (i + batchSize < trades.length) {
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                    }
+                }
+
+                return results;
+            } finally {
+                document.body.removeChild(progressContainer);
+            }
         }
         
         // Manual sync
@@ -1294,143 +1929,6 @@ async function saveTradeToCloud(trade) {
             await loadTradesFromCloud();
         }
         
-// CORRECTED Function to upload imported trades to Supabase - MATCHES YOUR SQL SCHEMA
-async function uploadImportedTradesToSupabase(trades) {
-    if (!currentUser) {
-        throw new Error('User not authenticated');
-    }
-
-    const results = {
-        success: 0,
-        errors: 0,
-        errorDetails: []
-    };
-
-    // Create upload progress UI
-    const progressContainer = document.createElement('div');
-    progressContainer.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        z-index: 10000;
-        min-width: 300px;
-        text-align: center;
-    `;
-    
-    const progressBar = document.createElement('div');
-    progressBar.style.cssText = `
-        width: 100%;
-        height: 20px;
-        background: #f0f0f0;
-        border-radius: 10px;
-        margin: 15px 0;
-        overflow: hidden;
-    `;
-    
-    const progressFill = document.createElement('div');
-    progressFill.style.cssText = `
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, #4a8c5a, #3a7c47);
-        transition: width 0.3s ease;
-        border-radius: 10px;
-    `;
-    
-    const statusText = document.createElement('div');
-    statusText.style.cssText = `
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
-    `;
-    
-    progressBar.appendChild(progressFill);
-    progressContainer.appendChild(statusText);
-    progressContainer.appendChild(progressBar);
-    document.body.appendChild(progressContainer);
-
-    try {
-        // Upload trades in batches
-        const batchSize = 5;
-        for (let i = 0; i < trades.length; i += batchSize) {
-            const batch = trades.slice(i, i + batchSize);
-            
-            // Update progress
-            const progress = Math.min(i + batchSize, trades.length);
-            const percentage = Math.round((progress / trades.length) * 100);
-            progressFill.style.width = `${percentage}%`;
-            statusText.textContent = `Uploading imported trades to cloud... ${progress}/${trades.length} (${percentage}%)`;
-            
-            // Process batch - USE EXACT COLUMN NAMES FROM YOUR SQL SCHEMA
-            const batchPromises = batch.map(async (trade) => {
-                try {
-                    // USE THE EXACT COLUMN NAMES FROM YOUR london_trades TABLE
-                    const supabaseTrade = {
-                        user_id: currentUser.id,
-                        session: 'LONDON',
-                        date: trade.date,
-                        time: trade.time,
-                        timestamp: trade.timestamp,
-                        confluences: trade.confluences,
-                        "maxRrHit": trade.maxRrHit || 0,  // FIXED: Match your SQL schema with quotes
-                        pnl: trade.pnl || 0,
-                        rank: trade.rank,
-                        screenshot: trade.screenshot,
-                        notes: trade.notes,
-                        "newsSession": trade.newsSession || false,  // FIXED: Match your SQL schema with quotes
-                        "sweepType": trade.sweepType || null  // FIXED: Match your SQL schema with quotes
-                    };
-
-                    const { data, error } = await supabase
-                        .from('london_trades')
-                        .insert([supabaseTrade])
-                        .select();
-
-                    if (error) throw error;
-                    
-                    return { success: true, trade: data[0] };
-                } catch (error) {
-                    return { 
-                        success: false, 
-                        error: error.message,
-                        trade: trade 
-                    };
-                }
-            });
-
-            const batchResults = await Promise.allSettled(batchPromises);
-            
-            // Count results
-            batchResults.forEach(result => {
-                if (result.status === 'fulfilled') {
-                    if (result.value.success) {
-                        results.success++;
-                    } else {
-                        results.errors++;
-                        results.errorDetails.push(result.value);
-                    }
-                } else {
-                    results.errors++;
-                    results.errorDetails.push({ error: result.reason?.message });
-                }
-            });
-
-            // Small delay between batches
-            if (i + batchSize < trades.length) {
-                await new Promise(resolve => setTimeout(resolve, 500));
-            }
-        }
-
-        return results;
-    } finally {
-        document.body.removeChild(progressContainer);
-    }
-}
-
         // Show sync status
         function showSyncStatus(message, type) {
             syncStatus.textContent = message;
@@ -1438,7 +1936,6 @@ async function uploadImportedTradesToSupabase(trades) {
                                   type === 'success' ? 'sync-success' : 'sync-loading'}`;
             syncStatus.style.display = 'block';
             
-            // Hide status after 3 seconds
             if (type !== 'loading') {
                 setTimeout(() => {
                     syncStatus.style.display = 'none';
@@ -1447,6 +1944,126 @@ async function uploadImportedTradesToSupabase(trades) {
         }
         
         // ==================== TRADING JOURNAL FUNCTIONS ====================
+        
+        // Day of Week Function
+        function getDayOfWeek(dateString) {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const date = new Date(dateString);
+            return days[date.getDay()];
+        }
+
+        // Notes Modal Functions
+        function showNotes(notes) {
+            if (notes && notes.trim() !== '') {
+                notesContent.textContent = notes;
+                notesContent.className = 'notes-content';
+            } else {
+                notesContent.innerHTML = '<div class="no-notes">No notes available for this trade</div>';
+            }
+            notesModal.style.display = 'flex';
+        }
+
+        function closeNotesModal() {
+            notesModal.style.display = 'none';
+        }
+
+        // Event listeners for notes modal
+        notesModalClose.addEventListener('click', closeNotesModal);
+        notesModal.addEventListener('click', function(e) {
+            if (e.target === notesModal) {
+                closeNotesModal();
+            }
+        });
+
+        // Rank Dropdown Functions
+        function updateRankDropdownHeader() {
+            const selectedRanks = Array.from(rankCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+            
+            if (selectedRanks.length === 0) {
+                rankDropdownHeader.querySelector('span').textContent = 'No Ranks Selected';
+            } else if (selectedRanks.length === 6) {
+                rankDropdownHeader.querySelector('span').textContent = 'All Ranks';
+            } else if (selectedRanks.length === 1) {
+                rankDropdownHeader.querySelector('span').textContent = selectedRanks[0];
+            } else {
+                rankDropdownHeader.querySelector('span').textContent = `${selectedRanks.length} Ranks Selected`;
+            }
+        }
+
+        function getSelectedRanks() {
+            return Array.from(rankCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+        }
+
+        // Day Dropdown Functions
+        function updateDayDropdownHeader() {
+            const selectedDays = Array.from(dayCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+            
+            if (selectedDays.length === 0) {
+                dayDropdownHeader.querySelector('span').textContent = 'No Days Selected';
+            } else if (selectedDays.length === 5) {
+                dayDropdownHeader.querySelector('span').textContent = 'All Days';
+            } else if (selectedDays.length === 1) {
+                dayDropdownHeader.querySelector('span').textContent = selectedDays[0];
+            } else {
+                dayDropdownHeader.querySelector('span').textContent = `${selectedDays.length} Days Selected`;
+            }
+        }
+
+        function getSelectedDays() {
+            return Array.from(dayCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+        }
+        
+        // Rank Dropdown Event Listeners
+        rankDropdownHeader.addEventListener('click', function() {
+            rankDropdownOptions.classList.toggle('show');
+            rankDropdownHeader.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!rankDropdownHeader.contains(event.target) && !rankDropdownOptions.contains(event.target)) {
+                rankDropdownOptions.classList.remove('show');
+                rankDropdownHeader.classList.remove('active');
+            }
+        });
+
+        // Update header and dashboard when checkboxes change
+        rankCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateRankDropdownHeader();
+                updateDashboard();
+            });
+        });
+
+        // Day Dropdown Event Listeners
+        dayDropdownHeader.addEventListener('click', function() {
+            dayDropdownOptions.classList.toggle('show');
+            dayDropdownHeader.classList.toggle('active');
+        });
+
+        // Close day dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dayDropdownHeader.contains(event.target) && !dayDropdownOptions.contains(event.target)) {
+                dayDropdownOptions.classList.remove('show');
+                dayDropdownHeader.classList.remove('active');
+            }
+        });
+
+        // Update header and dashboard when day checkboxes change
+        dayCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateDayDropdownHeader();
+                updateDashboard();
+            });
+        });
         
         // RR Slider functionality
         rrSlider.addEventListener('input', function() {
@@ -1565,9 +2182,9 @@ async function uploadImportedTradesToSupabase(trades) {
                 sweepType = selectedOption ? selectedOption.getAttribute('data-type') : null;
             }
             
-            // Save last used date and time - LONDON VERSION
-            localStorage.setItem('londonLastUsedDate', tradeDate);  // CHANGED: londonLastUsedDate
-            localStorage.setItem('londonLastUsedTime', tradeTime);  // CHANGED: londonLastUsedTime
+            // Save last used date and time
+            localStorage.setItem('londonLastUsedDate', tradeDate);
+            localStorage.setItem('londonLastUsedTime', tradeTime);
             
             const dateTimeString = `${tradeDate}T${tradeTime}`;
             const timestamp = new Date(dateTimeString).getTime();
@@ -1585,7 +2202,9 @@ async function uploadImportedTradesToSupabase(trades) {
                 screenshot: screenshot,
                 notes: notes,
                 newsSession: hasNewsSession,
-                sweepType: sweepType
+                sweepType: sweepType,
+                // Calculate day of week
+                dayOfWeek: getDayOfWeek(tradeDate)
             };
             
             // Save to cloud if logged in
@@ -1599,8 +2218,8 @@ async function uploadImportedTradesToSupabase(trades) {
             // Add to trades array
             trades.push(trade);
             
-            // Save to localStorage - LONDON VERSION
-            localStorage.setItem('londonTrades', JSON.stringify(trades));  // CHANGED: londonTrades
+            // Save to localStorage
+            localStorage.setItem('londonTrades', JSON.stringify(trades));
             
             // Reset form but keep the same date/time for backtesting
             tradeForm.reset();
@@ -1614,6 +2233,7 @@ async function uploadImportedTradesToSupabase(trades) {
             // Update UI
             updateTradeHistory();
             updateDashboard();
+            populateMonthDropdown();
             
             // Switch to dashboard
             tabs.forEach(t => t.classList.remove('active'));
@@ -1671,6 +2291,7 @@ if (currentRrSimulation > 0) {
                 
                 const pnlClass = simulatedPnl >= 0 ? 'positive' : 'negative';
                 const rankClass = `rank-${trade.rank.replace('+', 'plus')}`;
+                const dayClass = `day-${trade.dayOfWeek}`;
                 
                 // Build confluence tags
                 let confluenceTags = trade.confluences.map(conf => {
@@ -1692,6 +2313,7 @@ if (currentRrSimulation > 0) {
                         <div class="date-display">${formatDate(trade.date)}</div>
                         <div class="time-display">${formatTime(trade.time)}</div>
                     </td>
+                    <td><span class="day-badge ${dayClass}">${trade.dayOfWeek}</span></td>
                     <td><span class="rank-badge ${rankClass} trade-rank">${trade.rank}</span></td>
                     <td>
                         <div class="confluence-tags">
@@ -1711,6 +2333,9 @@ if (currentRrSimulation > 0) {
                         }
                     </td>
                     <td class="actions">
+                        ${trade.notes ? `<button class="btn btn-outline btn-sm" onclick="showNotes('${trade.notes.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-sticky-note"></i> Notes
+                        </button>` : ''}
                         <button class="btn btn-danger btn-sm" onclick="deleteTrade(${trade.id})">
                             <i class="fas fa-trash"></i> Delete
                         </button>
@@ -1728,9 +2353,10 @@ if (currentRrSimulation > 0) {
                 const cloudSuccess = await deleteTradeFromCloud(id);
                 
                 trades = trades.filter(trade => trade.id !== id);
-                localStorage.setItem('londonTrades', JSON.stringify(trades));  // CHANGED: londonTrades
+                localStorage.setItem('londonTrades', JSON.stringify(trades));
                 updateTradeHistory();
                 updateDashboard();
+                populateMonthDropdown();
                 showNotification('Trade deleted successfully!' + (currentUser && cloudSuccess ? ' (Removed from cloud)' : ''), 'warning');
             }
         }
@@ -1744,9 +2370,11 @@ if (currentRrSimulation > 0) {
         // Update dashboard with performance metrics
         function updateDashboard() {
             // Get filter values
+            const dateFrom = dateFromInput.value;
+            const dateTo = dateToInput.value;
+            const selectedMonths = getSelectedMonths();
             const confluenceFilters = Array.from(document.querySelectorAll('.confluence-filter:checked'))
                 .map(cb => cb.id.replace('filter-', ''));
-            const rankFilter = document.getElementById('rank-filter').value;
             const maxLosses = parseInt(document.getElementById('max-losses').value);
             const newsSessionOnly = filterNewsCheckbox.checked;
             
@@ -1759,7 +2387,13 @@ if (currentRrSimulation > 0) {
             // Filter trades
             let filteredTrades = [...trades];
             
-            // Apply filters
+            // Apply date range filter
+            filteredTrades = filterByDateRange(filteredTrades, dateFrom, dateTo);
+            
+            // Apply month filter
+            filteredTrades = filterByMonth(filteredTrades, selectedMonths);
+            
+            // Apply other filters
             if (confluenceFilters.length > 0) {
                 filteredTrades = filteredTrades.filter(trade => 
                     confluenceFilters.every(filter => {
@@ -1777,8 +2411,16 @@ if (currentRrSimulation > 0) {
                 );
             }
             
-            if (rankFilter !== 'all') {
-                filteredTrades = filteredTrades.filter(trade => trade.rank === rankFilter);
+            // Apply rank filter using checkboxes
+            const selectedRanks = getSelectedRanks();
+            if (selectedRanks.length > 0) {
+                filteredTrades = filteredTrades.filter(trade => selectedRanks.includes(trade.rank));
+            }
+
+            // Apply day filter using checkboxes
+            const selectedDays = getSelectedDays();
+            if (selectedDays.length > 0) {
+                filteredTrades = filteredTrades.filter(trade => selectedDays.includes(trade.dayOfWeek));
             }
             
             if (newsSessionOnly) {
@@ -1848,7 +2490,7 @@ if (currentRrSimulation > 0) {
             const wins = simulationTrades.filter(trade => trade.pnl > 0);
             const losses = simulationTrades.filter(trade => trade.pnl < 0);
             const zeroTrades = simulationTrades.filter(trade => trade.pnl === 0);
- 
+
             const totalNetR = simulationTrades.reduce((sum, trade) => sum + trade.pnl, 0);
             const tradesForWinRate = wins.length + losses.length; // Only count wins + losses
             const winRate = tradesForWinRate > 0 ? (wins.length / tradesForWinRate) * 100 : 0;
@@ -1874,7 +2516,7 @@ if (currentRrSimulation > 0) {
                 }
             });
             
-            // Calculate max win streak and max loss streak
+            // Calculate max win streak and max loss streak - IGNORE BE TRADES (0 P&L)
             let currentWinStreak = 0;
             let currentLossStreak = 0;
             let maxWinStreak = 0;
@@ -1893,10 +2535,8 @@ if (currentRrSimulation > 0) {
                     if (currentLossStreak > maxLossStreak) {
                         maxLossStreak = currentLossStreak;
                     }
-                } else {
-                    currentWinStreak = 0;
-                    currentLossStreak = 0;
                 }
+                // BE TRADES (pnl = 0) don't affect the streaks
             });
             
             // Update UI
@@ -1966,7 +2606,7 @@ function calculateOptimalTp(filteredTrades) {
     }
 }
         
- // Apply max consecutive losses filter - IGNORE BE TRADES (0 P&L) FROM LOSS STREAK
+// Apply max consecutive losses filter - IGNORE BE TRADES (0 P&L) FROM LOSS STREAK
 function applyMaxLossesFilter(trades, maxLosses) {
     const tradesByDate = {};
     trades.forEach(trade => {
@@ -2036,12 +2676,12 @@ function applyMaxLossesFilter(trades, maxLosses) {
                     datasets: [{
                         label: 'Cumulative R',
                         data: equityData,
-                        borderColor: '#4a8c5a',
-                        backgroundColor: 'rgba(74, 140, 90, 0.1)',
+                        borderColor: '#3a8f5f',
+                        backgroundColor: 'rgba(58, 143, 95, 0.1)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.1,
-                        pointBackgroundColor: '#3a5f8f',
+                        pointBackgroundColor: '#3a8f5f',
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
                         pointRadius: 4,
@@ -2131,14 +2771,14 @@ function applyMaxLossesFilter(trades, maxLosses) {
             return "C";
         }
         
-        // Export data - LONDON VERSION
+        // Export data
         exportBtn.addEventListener('click', function() {
             const dataStr = JSON.stringify(trades, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
             
             const link = document.createElement('a');
             link.href = URL.createObjectURL(dataBlob);
-            link.download = 'london-session-trading-journal-data.json';  // CHANGED: london-session
+            link.download = 'london-session-trading-journal-data.json';
             link.click();
             
             showNotification('Data exported successfully!', 'success');
@@ -2165,7 +2805,7 @@ function applyMaxLossesFilter(trades, maxLosses) {
                 trades = [...trades, ...newTrades];
                 localStorage.setItem('londonTrades', JSON.stringify(trades));
                 
-                // NEW: Upload to cloud if logged in
+                // Upload to cloud if logged in
                 if (currentUser) {
                     try {
                         const loadingNotification = showNotification('Uploading imported trades to cloud...', 'loading');
@@ -2193,11 +2833,13 @@ function applyMaxLossesFilter(trades, maxLosses) {
                         showNotification('Imported locally, but cloud upload failed', 'error');
                         updateTradeHistory();
                         updateDashboard();
+                        populateMonthDropdown();
                     }
                 } else {
                     showNotification(`Imported ${newTrades.length} trades to local storage. Login to sync with cloud.`, 'success');
                     updateTradeHistory();
                     updateDashboard();
+                    populateMonthDropdown();
                 }
             } else {
                 showNotification('Invalid data format!', 'error');
@@ -2211,13 +2853,13 @@ function applyMaxLossesFilter(trades, maxLosses) {
     e.target.value = '';
 });
         
-        // Clear all data - LONDON VERSION
+        // Clear all data
         clearBtn.addEventListener('click', async function() {
             if (confirm('Are you sure you want to delete ALL London session trading data? This action cannot be undone.')) {
                 // If logged in, also clear cloud data
                 if (currentUser) {
                     const { error } = await supabase
-                        .from('london_trades')  // CHANGED: london_trades
+                        .from('london_trades')
                         .delete()
                         .eq('user_id', currentUser.id);
                     
@@ -2227,9 +2869,10 @@ function applyMaxLossesFilter(trades, maxLosses) {
                 }
                 
                 trades = [];
-                localStorage.setItem('londonTrades', JSON.stringify(trades));  // CHANGED: londonTrades
+                localStorage.setItem('londonTrades', JSON.stringify(trades));
                 updateTradeHistory();
                 updateDashboard();
+                populateMonthDropdown();
                 showNotification('All London session data cleared!' + (currentUser ? ' (Cloud data also cleared)' : ''), 'warning');
             }
         });
@@ -2325,10 +2968,16 @@ function applyMaxLossesFilter(trades, maxLosses) {
                 if (trade.maxRrHit === undefined) {
                     trade.maxRrHit = 0;
                 }
+                // Ensure all trades have dayOfWeek
+                if (!trade.dayOfWeek) {
+                    trade.dayOfWeek = getDayOfWeek(trade.date);
+                }
             });
             
             updateTradeHistory();
             updateDashboard();
+            initializeDateRange();
+            populateMonthDropdown();
             checkAuth(); // Check if user is already logged in
             loadLocalTrades(); // Always show local data immediately
         }
