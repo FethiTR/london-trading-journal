@@ -804,10 +804,7 @@
                 order: 1;
             }
         }
-      /* Hide mobile sidebar on desktop by default */
-.mobile-sidebar {
-    display: none;
-}  
+        
 @media (max-width: 768px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -821,17 +818,27 @@
         grid-template-columns: 1fr;
     }
     
-    /* Hide sidebar elements on mobile */
-    .sidebar .tabs,
-    .sidebar .cloud-sync-section,
-    .sidebar .filter-section {
-        display: none;
+    /* Mobile layout reordering */
+    .app-container {
+        display: flex;
+        flex-direction: column;
     }
     
-    /* Show mobile versions */
-    .mobile-sidebar {
-        display: block;
-        margin: 20px 0;
+    .main-content {
+        order: 1;
+    }
+    
+    .sidebar {
+        order: 2;
+    }
+    
+    .mobile-reposition {
+        order: 1; /* Show BEFORE the main content */
+        margin-bottom: 20px;
+    }
+    
+    .sidebar-content {
+        order: 2; /* Show AFTER the main content */
     }
 }
     </style>
@@ -845,228 +852,234 @@
         </header>
         
         <div class="app-container">
-            <div class="sidebar">
-                <div class="tabs">
-                    <div class="tab active" data-tab="dashboard">Dashboard</div>
-                    <div class="tab" data-tab="add-trade">Add Trade</div>
-                </div>
-                
-                <!-- Cloud Sync Section -->
-                <div class="cloud-sync-section">
-                    <div style="font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
-                        <i class="fas fa-cloud"></i> Cloud Sync
-                    </div>
-                    <button id="cloud-login" class="btn btn-success" style="margin-bottom: 10px;">
-                        <i class="fas fa-sign-in-alt"></i> Login to Cloud
-                    </button>
-                    <button id="cloud-sync" class="btn btn-outline" style="display: none;">
-                        <i class="fas fa-cloud-upload-alt"></i> Sync Now
-                    </button>
-                    <div id="sync-status" class="sync-status"></div>
-                    <div id="user-info" style="display: none; margin-top: 10px; font-size: 0.9rem;">
-                        Logged in as: <span id="user-email"></span>
-                        <button id="cloud-logout" class="btn btn-sm btn-danger" style="margin-top: 5px; width: 100%;">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="filter-section">
-                    <div class="filter-title">
-                        <i class="fas fa-filter"></i> Analytics Filters
-                    </div>
-                    
-                    <!-- Date Range Filter -->
-<div class="form-group">
-    <label>Date Range</label>
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-        <div>
-            <label style="font-size: 0.85rem; margin-bottom: 5px;">From</label>
-            <input type="date" id="date-from">
+<div class="sidebar">
+    <!-- MOBILE REPOSITION SECTION -->
+    <div class="mobile-reposition">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">Dashboard</div>
+            <div class="tab" data-tab="add-trade">Add Trade</div>
         </div>
-        <div>
-            <label style="font-size: 0.85rem; margin-bottom: 5px;">To</label>
-            <input type="date" id="date-to">
+        
+        <!-- Cloud Sync Section -->
+        <div class="cloud-sync-section">
+            <div style="font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                <i class="fas fa-cloud"></i> Cloud Sync
+            </div>
+            <button id="cloud-login" class="btn btn-success" style="margin-bottom: 10px;">
+                <i class="fas fa-sign-in-alt"></i> Login to Cloud
+            </button>
+            <button id="cloud-sync" class="btn btn-outline" style="display: none;">
+                <i class="fas fa-cloud-upload-alt"></i> Sync Now
+            </button>
+            <div id="sync-status" class="sync-status"></div>
+            <div id="user-info" style="display: none; margin-top: 10px; font-size: 0.9rem;">
+                Logged in as: <span id="user-email"></span>
+                <button id="cloud-logout" class="btn btn-sm btn-danger" style="margin-top: 5px; width: 100%;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
         </div>
-    </div>
-</div>
-                    
-                    <!-- Month Filter -->
-                    <div class="form-group">
-                        <label for="month-filter">Month Filter</label>
-                        <div class="custom-dropdown">
-                            <div class="dropdown-header" id="month-dropdown-header">
-                                <span>All Months</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="dropdown-options" id="month-dropdown-options">
-                                <!-- Months will be populated dynamically -->
-                            </div>
-                        </div>
+        
+        <div class="filter-section">
+            <div class="filter-title">
+                <i class="fas fa-filter"></i> Analytics Filters
+            </div>
+            
+            <!-- Date Range Filter -->
+            <div class="form-group">
+                <label>Date Range</label>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 5px;">From</label>
+                        <input type="date" id="date-from">
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Confluences</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="filter-delivery" class="confluence-filter">
-                                <label for="filter-delivery" style="margin:0;">Delivery</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="filter-sweep" class="confluence-filter">
-                                <label for="filter-sweep" style="margin:0;">Sweep</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="filter-smt" class="confluence-filter">
-                                <label for="filter-smt" style="margin:0;">SMT</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="filter-macro" class="confluence-filter">
-                                <label for="filter-macro" style="margin:0;">Macro</label>
-                            </div>
-                        </div>
-                        
-                        <!-- Sweep Filter Options -->
-                        <div id="sweep-filter-options" class="sweep-options hidden">
-                            <div class="sweep-grid">
-                                <div class="sweep-option" data-type="HTF">
-                                    <i class="fas fa-chart-line sweep-icon"></i>
-                                    <div>
-                                        <div style="font-weight: 600;">HTF</div>
-                                        <div style="font-size: 0.8rem; opacity: 0.8;">Higher Time Frame</div>
-                                    </div>
-                                </div>
-                                <div class="sweep-option" data-type="LTF">
-                                    <i class="fas fa-chart-bar sweep-icon"></i>
-                                    <div>
-                                        <div style="font-weight: 600;">LTF</div>
-                                        <div style="font-size: 0.8rem; opacity: 0.8;">Lower Time Frame</div>
-                                    </div>
-                                </div>
-                                <div class="sweep-option" data-type="HTF/LTF">
-                                    <i class="fas fa-chart-area sweep-icon"></i>
-                                    <div>
-                                        <div style="font-weight: 600;">HTF/LTF</div>
-                                        <div style="font-size: 0.8rem; opacity: 0.8;">Both Time Frames</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <label style="font-size: 0.85rem; margin-bottom: 5px;">To</label>
+                        <input type="date" id="date-to">
                     </div>
-                    
-                    <!-- Rank Filter -->
-                    <div class="form-group">
-                        <label for="rank-filter">Rank Filter</label>
-                        <div class="custom-dropdown">
-                            <div class="dropdown-header" id="rank-dropdown-header">
-                                <span>All Ranks</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="dropdown-options" id="rank-dropdown-options">
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="rank-A++" value="A++" checked>
-                                    <label for="rank-A++" class="rank-badge rank-App">A++</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="rank-A+" value="A+" checked>
-                                    <label for="rank-A+" class="rank-badge rank-Aplus">A+</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="rank-A" value="A" checked>
-                                    <label for="rank-A" class="rank-badge rank-A">A</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="rank-B+" value="B+" checked>
-                                    <label for="rank-B+" class="rank-badge rank-Bplus">B+</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="rank-B" value="B" checked>
-                                    <label for="rank-B" class="rank-badge rank-B">B</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="rank-C" value="C" checked>
-                                    <label for="rank-C" class="rank-badge rank-C">C</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Day Filter -->
-                    <div class="form-group">
-                        <label for="day-filter">Day Filter</label>
-                        <div class="custom-dropdown">
-                            <div class="dropdown-header" id="day-dropdown-header">
-                                <span>All Days</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div class="dropdown-options" id="day-dropdown-options">
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="day-Mon" value="Mon" checked>
-                                    <label for="day-Mon" class="day-badge day-Mon">Monday</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="day-Tue" value="Tue" checked>
-                                    <label for="day-Tue" class="day-badge day-Tue">Tuesday</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="day-Wed" value="Wed" checked>
-                                    <label for="day-Wed" class="day-badge day-Wed">Wednesday</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="day-Thu" value="Thu" checked>
-                                    <label for="day-Thu" class="day-badge day-Thu">Thursday</label>
-                                </div>
-                                <div class="dropdown-option">
-                                    <input type="checkbox" id="day-Fri" value="Fri" checked>
-                                    <label for="day-Fri" class="day-badge day-Fri">Friday</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="max-losses">Max Consecutive Losses Per Day</label>
-                        <select id="max-losses">
-                            <option value="0">No Limit</option>
-                            <option value="1">1 Loss</option>
-                            <option value="2">2 Losses</option>
-                            <option value="3">3 Losses</option>
-                            <option value="4">4 Losses</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="filter-news" class="confluence-filter">
-                            <label for="filter-news" style="margin:0;">News Session Only</label>
-                        </div>
-                    </div>
-                    
-                    <button id="apply-filters" class="btn btn-outline">
-                        <i class="fas fa-sync-alt"></i> Apply Filters
-                    </button>
-                </div>
-                
-                <div class="form-group">
-                    <button id="export-data" class="btn btn-outline">
-                        <i class="fas fa-file-export"></i> Export Data
-                    </button>
-                </div>
-                
-                <div class="form-group">
-                    <button id="import-data" class="btn btn-outline">
-                        <i class="fas fa-file-import"></i> Import Data
-                    </button>
-                    <input type="file" id="import-file" accept=".json" style="display: none;">
-                </div>
-                
-                <div class="form-group">
-                    <button id="clear-data" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i> Clear All Data
-                    </button>
                 </div>
             </div>
             
+            <!-- Month Filter -->
+            <div class="form-group">
+                <label for="month-filter">Month Filter</label>
+                <div class="custom-dropdown">
+                    <div class="dropdown-header" id="month-dropdown-header">
+                        <span>All Months</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-options" id="month-dropdown-options">
+                        <!-- Months will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Confluences</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-delivery" class="confluence-filter">
+                        <label for="filter-delivery" style="margin:0;">Delivery</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-sweep" class="confluence-filter">
+                        <label for="filter-sweep" style="margin:0;">Sweep</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-smt" class="confluence-filter">
+                        <label for="filter-smt" style="margin:0;">SMT</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-macro" class="confluence-filter">
+                        <label for="filter-macro" style="margin:0;">Macro</label>
+                    </div>
+                </div>
+                
+                <!-- Sweep Filter Options -->
+                <div id="sweep-filter-options" class="sweep-options hidden">
+                    <div class="sweep-grid">
+                        <div class="sweep-option" data-type="HTF">
+                            <i class="fas fa-chart-line sweep-icon"></i>
+                            <div>
+                                <div style="font-weight: 600;">HTF</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">Higher Time Frame</div>
+                            </div>
+                        </div>
+                        <div class="sweep-option" data-type="LTF">
+                            <i class="fas fa-chart-bar sweep-icon"></i>
+                            <div>
+                                <div style="font-weight: 600;">LTF</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">Lower Time Frame</div>
+                            </div>
+                        </div>
+                        <div class="sweep-option" data-type="HTF/LTF">
+                            <i class="fas fa-chart-area sweep-icon"></i>
+                            <div>
+                                <div style="font-weight: 600;">HTF/LTF</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">Both Time Frames</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rank Filter -->
+            <div class="form-group">
+                <label for="rank-filter">Rank Filter</label>
+                <div class="custom-dropdown">
+                    <div class="dropdown-header" id="rank-dropdown-header">
+                        <span>All Ranks</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-options" id="rank-dropdown-options">
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="rank-A++" value="A++" checked>
+                            <label for="rank-A++" class="rank-badge rank-App">A++</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="rank-A+" value="A+" checked>
+                            <label for="rank-A+" class="rank-badge rank-Aplus">A+</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="rank-A" value="A" checked>
+                            <label for="rank-A" class="rank-badge rank-A">A</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="rank-B+" value="B+" checked>
+                            <label for="rank-B+" class="rank-badge rank-Bplus">B+</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="rank-B" value="B" checked>
+                            <label for="rank-B" class="rank-badge rank-B">B</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="rank-C" value="C" checked>
+                            <label for="rank-C" class="rank-badge rank-C">C</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day Filter -->
+            <div class="form-group">
+                <label for="day-filter">Day Filter</label>
+                <div class="custom-dropdown">
+                    <div class="dropdown-header" id="day-dropdown-header">
+                        <span>All Days</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-options" id="day-dropdown-options">
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="day-Mon" value="Mon" checked>
+                            <label for="day-Mon" class="day-badge day-Mon">Monday</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="day-Tue" value="Tue" checked>
+                            <label for="day-Tue" class="day-badge day-Tue">Tuesday</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="day-Wed" value="Wed" checked>
+                            <label for="day-Wed" class="day-badge day-Wed">Wednesday</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="day-Thu" value="Thu" checked>
+                            <label for="day-Thu" class="day-badge day-Thu">Thursday</label>
+                        </div>
+                        <div class="dropdown-option">
+                            <input type="checkbox" id="day-Fri" value="Fri" checked>
+                            <label for="day-Fri" class="day-badge day-Fri">Friday</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="max-losses">Max Consecutive Losses Per Day</label>
+                <select id="max-losses">
+                    <option value="0">No Limit</option>
+                    <option value="1">1 Loss</option>
+                    <option value="2">2 Losses</option>
+                    <option value="3">3 Losses</option>
+                    <option value="4">4 Losses</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="filter-news" class="confluence-filter">
+                    <label for="filter-news" style="margin:0;">News Session Only</label>
+                </div>
+            </div>
+            
+            <button id="apply-filters" class="btn btn-outline">
+                <i class="fas fa-sync-alt"></i> Apply Filters
+            </button>
+        </div>
+    </div>
+    <!-- END MOBILE REPOSITION -->
+    
+    <!-- KEEP THESE IN SIDEBAR -->
+    <div class="sidebar-content">
+        <div class="form-group">
+            <button id="export-data" class="btn btn-outline">
+                <i class="fas fa-file-export"></i> Export Data
+            </button>
+        </div>
+        
+        <div class="form-group">
+            <button id="import-data" class="btn btn-outline">
+                <i class="fas fa-file-import"></i> Import Data
+            </button>
+            <input type="file" id="import-file" accept=".json" style="display: none;">
+        </div>
+        
+        <div class="form-group">
+            <button id="clear-data" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Clear All Data
+            </button>
+        </div>
+    </div>
+</div>            
             <div class="main-content">
                 <div class="tab-content active" id="dashboard">
                     <h2><i class="fas fa-tachometer-alt"></i> Performance Overview</h2>
@@ -1153,209 +1166,12 @@
                     <div class="chart-container">
                         <canvas id="equity-chart"></canvas>
                     </div>
-                    <!-- MOBILE SIDEBAR CONTENT -->
-<div class="mobile-sidebar">
-    <div class="tabs">
-        <div class="tab active" data-tab="dashboard">Dashboard</div>
-        <div class="tab" data-tab="add-trade">Add Trade</div>
-    </div>
-    
-    <div class="cloud-sync-section">
-        <div style="font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
-            <i class="fas fa-cloud"></i> Cloud Sync
-        </div>
-        <button id="mobile-cloud-login" class="btn btn-success" style="margin-bottom: 10px;">
-            <i class="fas fa-sign-in-alt"></i> Login to Cloud
-        </button>
-        <button id="mobile-cloud-sync" class="btn btn-outline" style="display: none;">
-            <i class="fas fa-cloud-upload-alt"></i> Sync Now
-        </button>
-        <div id="mobile-sync-status" class="sync-status"></div>
-        <div id="mobile-user-info" style="display: none; margin-top: 10px; font-size: 0.9rem;">
-            Logged in as: <span id="mobile-user-email"></span>
-            <button id="mobile-cloud-logout" class="btn btn-sm btn-danger" style="margin-top: 5px; width: 100%;">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </div>
-    </div>
-    
-    <div class="filter-section">
-        <div class="filter-title">
-            <i class="fas fa-filter"></i> Analytics Filters
-        </div>
-        
-        <!-- Date Range Filter -->
-        <div class="form-group">
-            <label>Date Range</label>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <div>
-                    <label style="font-size: 0.85rem; margin-bottom: 5px;">From</label>
-                    <input type="date" id="mobile-date-from">
-                </div>
-                <div>
-                    <label style="font-size: 0.85rem; margin-bottom: 5px;">To</label>
-                    <input type="date" id="mobile-date-to">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Month Filter -->
-        <div class="form-group">
-            <label for="mobile-month-filter">Month Filter</label>
-            <div class="custom-dropdown">
-                <div class="dropdown-header" id="mobile-month-dropdown-header">
-                    <span>All Months</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="dropdown-options" id="mobile-month-dropdown-options">
-                    <!-- Months will be populated dynamically -->
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Confluences</label>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="mobile-filter-delivery" class="mobile-confluence-filter">
-                    <label for="mobile-filter-delivery" style="margin:0;">Delivery</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="mobile-filter-sweep" class="mobile-confluence-filter">
-                    <label for="mobile-filter-sweep" style="margin:0;">Sweep</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="mobile-filter-smt" class="mobile-confluence-filter">
-                    <label for="mobile-filter-smt" style="margin:0;">SMT</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="mobile-filter-macro" class="mobile-confluence-filter">
-                    <label for="mobile-filter-macro" style="margin:0;">Macro</label>
-                </div>
-            </div>
-            
-            <!-- Sweep Filter Options -->
-            <div id="mobile-sweep-filter-options" class="sweep-options hidden">
-                <div class="sweep-grid">
-                    <div class="sweep-option" data-type="HTF">
-                        <i class="fas fa-chart-line sweep-icon"></i>
-                        <div>
-                            <div style="font-weight: 600;">HTF</div>
-                            <div style="font-size: 0.8rem; opacity: 0.8;">Higher Time Frame</div>
-                        </div>
-                    </div>
-                    <div class="sweep-option" data-type="LTF">
-                        <i class="fas fa-chart-bar sweep-icon"></i>
-                        <div>
-                            <div style="font-weight: 600;">LTF</div>
-                            <div style="font-size: 0.8rem; opacity: 0.8;">Lower Time Frame</div>
-                        </div>
-                    </div>
-                    <div class="sweep-option" data-type="HTF/LTF">
-                        <i class="fas fa-chart-area sweep-icon"></i>
-                        <div>
-                            <div style="font-weight: 600;">HTF/LTF</div>
-                            <div style="font-size: 0.8rem; opacity: 0.8;">Both Time Frames</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Rank Filter -->
-        <div class="form-group">
-            <label for="mobile-rank-filter">Rank Filter</label>
-            <div class="custom-dropdown">
-                <div class="dropdown-header" id="mobile-rank-dropdown-header">
-                    <span>All Ranks</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="dropdown-options" id="mobile-rank-dropdown-options">
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-rank-A++" value="A++" checked>
-                        <label for="mobile-rank-A++" class="rank-badge rank-App">A++</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-rank-A+" value="A+" checked>
-                        <label for="mobile-rank-A+" class="rank-badge rank-Aplus">A+</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-rank-A" value="A" checked>
-                        <label for="mobile-rank-A" class="rank-badge rank-A">A</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-rank-B+" value="B+" checked>
-                        <label for="mobile-rank-B+" class="rank-badge rank-Bplus">B+</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-rank-B" value="B" checked>
-                        <label for="mobile-rank-B" class="rank-badge rank-B">B</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-rank-C" value="C" checked>
-                        <label for="mobile-rank-C" class="rank-badge rank-C">C</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Day Filter -->
-        <div class="form-group">
-            <label for="mobile-day-filter">Day Filter</label>
-            <div class="custom-dropdown">
-                <div class="dropdown-header" id="mobile-day-dropdown-header">
-                    <span>All Days</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="dropdown-options" id="mobile-day-dropdown-options">
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-day-Mon" value="Mon" checked>
-                        <label for="mobile-day-Mon" class="day-badge day-Mon">Monday</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-day-Tue" value="Tue" checked>
-                        <label for="mobile-day-Tue" class="day-badge day-Tue">Tuesday</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-day-Wed" value="Wed" checked>
-                        <label for="mobile-day-Wed" class="day-badge day-Wed">Wednesday</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-day-Thu" value="Thu" checked>
-                        <label for="mobile-day-Thu" class="day-badge day-Thu">Thursday</label>
-                    </div>
-                    <div class="dropdown-option">
-                        <input type="checkbox" id="mobile-day-Fri" value="Fri" checked>
-                        <label for="mobile-day-Fri" class="day-badge day-Fri">Friday</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="mobile-max-losses">Max Consecutive Losses Per Day</label>
-            <select id="mobile-max-losses">
-                <option value="0">No Limit</option>
-                <option value="1">1 Loss</option>
-                <option value="2">2 Losses</option>
-                <option value="3">3 Losses</option>
-                <option value="4">4 Losses</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <div class="checkbox-item">
-                <input type="checkbox" id="mobile-filter-news" class="mobile-confluence-filter">
-                <label for="mobile-filter-news" style="margin:0;">News Session Only</label>
-            </div>
-        </div>
-        
-        <button id="mobile-apply-filters" class="btn btn-outline">
-            <i class="fas fa-sync-alt"></i> Apply Filters
-        </button>
-    </div>
+                    <div class="chart-container">
+    <canvas id="equity-chart"></canvas>
 </div>
-<!-- END MOBILE SIDEBAR CONTENT -->
+
+<!-- MOBILE CONTENT WILL APPEAR HERE -->
+<div id="mobile-content-placeholder"></div>
                     <h3><i class="fas fa-history"></i> Trade History</h3>
                     <div id="history-content">
                         <table id="trades-table">
@@ -3205,4 +3021,3 @@ function applyMaxLossesFilter(trades, maxLosses) {
     </script>
 </body>
 </html>
-
