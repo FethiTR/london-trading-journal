@@ -804,7 +804,10 @@
                 order: 1;
             }
         }
-        
+      /* Hide mobile sidebar on desktop by default */
+.mobile-sidebar {
+    display: none;
+}  
 @media (max-width: 768px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -3202,3 +3205,4 @@ function applyMaxLossesFilter(trades, maxLosses) {
     </script>
 </body>
 </html>
+
